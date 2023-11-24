@@ -1,0 +1,29 @@
+name: Upload plugins
+
+on:
+  push:
+    branches:
+      - main # Change this to your main branch
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Azure CLI
+        uses: azure/CLI@v2
+        with:
+          azcliversion: 2.32.0
+
+      - name: Upload to Azure Storage
+        run: |
+          az storage blob upload \
+            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+            --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
+            --container-name <your-container-name> \
+            --type block \
+            --name <destination-blob-name> \
+            --content <path-to-your-file>
