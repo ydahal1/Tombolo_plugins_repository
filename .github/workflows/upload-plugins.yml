@@ -1,3 +1,10 @@
+name: Azure Storage Upload
+
+on:
+  push:
+    branches:
+      - main
+      
 jobs:
   upload:
     runs-on: ubuntu-latest
