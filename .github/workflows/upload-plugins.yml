@@ -22,8 +22,7 @@ jobs:
           az storage blob upload-batch \
             --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
             --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
-            --container-name ${{secrets.AZURE_PLUGINS_STORAGE_NAME}}
-            --destination plugins \
+            --destination ${{secrets.AZURE_PLUGINS_STORAGE_NAME}}
             --source ./plugins \
             --pattern '*' \
             --type block
