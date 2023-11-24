@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   upload:
     runs-on: ubuntu-latest
@@ -22,6 +22,7 @@ jobs:
           az storage blob upload-batch \
             --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
             --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
+            --container-name ${{secrets.AZURE_PLUGINS_STORAGE_NAME}}
             --destination plugins \
             --source ./plugins \
             --pattern '*' \
