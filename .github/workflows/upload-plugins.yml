@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   upload:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -19,13 +20,22 @@ jobs:
 
       - name: Upload to Azure Storage
         run: |
-          az storage blob upload-batch \
-            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
-            --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
-            --destination plugins \
-            --source ./plugins \
-            --pattern '*' \
-            --type block
-            --overwrite
+          account_name=${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+          account_key=${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+          container_name=plugins
+          source_directory=./plugins
 
+          # Define the blob name (adjust as needed)
+          blob_name=myblob
+
+          # Check if the blob exists
+          blob_exists=$(az storage blob exists --account-name $account_name --account-key $account_key --container-name $container_name --name $blob_name --output json | jq -r '.exists')
+
+          # Delete the blob if it exists
+          if [ "$blob_exists" == "true" ]; then
+            az storage blob delete --account-name $account_name --account-key $account_key --container-name $container_name --name $blob_name --yes
+          fi
+
+          # Upload the new blob
+          az storage blob upload-batch --account-name $account_name --account-key $account_key --destination $container_name --source $source_directory --pattern '*' --type block
 
