@@ -3,7 +3,7 @@ name: Upload plugins
 on:
   push:
     branches:
-      - main # Change this to your main branch
+      - main
 
 jobs:
   upload:
@@ -23,7 +23,8 @@ jobs:
           az storage blob upload \
             --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
             --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
-            --container-name <your-container-name> \
+            --container-name plugins \
+            --source ./plugins \
+            --pattern '*' \
             --type block \
-            --name <destination-blob-name> \
-            --content <path-to-your-file>
+            
