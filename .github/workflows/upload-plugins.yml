@@ -26,3 +26,61 @@ jobs:
             --source ./plugins \
             --pattern '*' \
             --type block
+            name: Azure Storage Upload
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Azure CLI
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+      - name: Upload to Azure Storage
+        run: |
+          az storage blob upload-batch \
+            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+            --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
+            --destination plugins \
+            --source ./plugins \
+            --pattern '*' \
+            --type block
+            name: Azure Storage Upload
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Azure CLI
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+      - name: Upload to Azure Storage
+        run: |
+          az storage blob upload-batch \
+            --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} \
+            --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
+            --destination plugins \
+            --source ./plugins \
+            --pattern '*' \
+            --type block
+            --overwrite
+
