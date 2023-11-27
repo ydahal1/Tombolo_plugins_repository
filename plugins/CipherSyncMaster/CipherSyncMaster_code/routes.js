@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/cipherSyncMaster", (req, res) => {
-  res.send("Hello From CIPHER SYNC MASTER !!!");
+  res.send("    <h1>Hello From CIPHER SYNC MASTER !!! </h1>");
 });
 
 module.exports = router;
